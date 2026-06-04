@@ -3,6 +3,8 @@ require('dotenv').config()
 const { GoogleGenAI } = require('@google/genai')
 const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
 
+const { reviewPrompt } = require('./prompts')
+
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -30,8 +32,7 @@ app.post('/api/review', async (req, res) => {
     }
 
     try{
-        const prompt = `Here is a resume ${resume}. Here is a job ${jobDescription}. Pretend you are the hiring manager for this job you will give feedback on how the resume fits and mathces the job description providing ways to fix it and if you think its a good fit`
-
+        const prompt = reviewPrompt(resume, jobDescription)
         const result = await genAI.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: prompt

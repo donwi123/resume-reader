@@ -1,27 +1,51 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
-import './App.css'
+export default function App() {
+  const [jobDesc, setJobDesc] = useState('');
+  const [resume, setResume] = useState('');
+  const [feedback, setFeedback] = useState(null);
+  const API_URL = 'http://localhost:3001/api/review'
 
-function App() {
+  async function handleSubmit(e){
 
-  return (
-    <html>
-      <body>
-        <h1>Resume Reveiw With Gemeni!</h1>
-        <p>Please write in a Resume and job desc</p>
+    const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ resume, jobDescription: jobDesc })
+    })
 
-        <form>
-          <label for="jobDesc"> Please Enter Job Description:</label>
-          <input type="text" id="jobDesc" name="jobDesc"></input>
-          <label for="resume"> Please Enter Resume:</label>
-          <input type="text" id="resume" name="resume"></input>
+    const data = await response.json()
+    setFeedback(data.feedback)
+  }
+
+  
+    return (
+      <>
 
 
-        </form>
-      </body>
-    </html>
+    <label>
+       Enter Job Description:
+      <textarea name="inputJobDesc" 
+       value={jobDesc}
+       onChange={(e) => setJobDesc(e.target.value)}
+      />
+    </label>
+
+    <label>
+       Enter Resume :
+      <textarea name="inputResume" 
+       value={resume}
+       onChange={(e) => setResume(e.target.value)}
+      />
+    </label>
+
+    <button onClick={handleSubmit}>Analyse Resume + Job Desc</button>
+    {feedback && <p>{feedback}</p>}
       
+      </>
+  
+
+  
+  
   )
 }
-
-export default App
