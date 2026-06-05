@@ -1,13 +1,19 @@
 
 
 const reviewPrompt = (resume, jobDescription) => `
-    You are an expert recruiter...
-    Resume: ${resume}
-    Job: ${jobDescription}
-    Respond only in JSON i need a match score ie how much the resume fits the job from 0 - 100
-    Strengths the applicant has relating to the job description.
-    Improvments that can be made to better fit the description
-    and finally missing key words that appear on the job description but not the resume.
+You are an expert recruiter. Analyse the resume against the job description.
+
+Respond ONLY with a JSON object in this exact format, no other text:
+{
+  "matchScore": <number 0-100>,
+  "summary": "<one sentence>",
+  "strengths": ["<item>", "<item>"],
+  "improvements": ["<item>", "<item>"],
+  "missingKeywords": ["<item>", "<item>"]
+}
+
+Resume: ${resume}
+Job Description: ${jobDescription}
 `
 
 module.exports = { reviewPrompt }

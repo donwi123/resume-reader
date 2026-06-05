@@ -39,8 +39,9 @@ app.post('/api/review', async (req, res) => {
         })
 
         const resultText = result.text
-
-        return res.json({feedback: resultText})
+        const clean = resultText.replace(/```json|```/g, '').trim()
+        const parsed = JSON.parse(clean)
+        return res.json(parsed)
 
 
 
