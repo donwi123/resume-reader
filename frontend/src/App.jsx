@@ -89,7 +89,7 @@ export default function App() {
           </div>
 
           <div className='improvments-div'>         
-            <h2>Improvments</h2>
+            <h2>Improvements</h2>
               <ul>
                 {feedback.improvements.map((item,index) => (
                     <li key={index}>{item}</li>
