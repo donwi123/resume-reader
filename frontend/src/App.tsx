@@ -41,6 +41,8 @@ export default function App() {
     return (
     <div className='app-container'>
 
+    <div className="banner">⚠️ Please Note this is a free tier web hosting service initial spin up could take up to 30 seconds</div>
+
     <div className="header">
       <h1>Resume Reviewer</h1>
       <p>Paste your resume and a job description to get AI feedback</p>
