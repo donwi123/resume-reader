@@ -1,6 +1,6 @@
 
 
-const reviewPrompt = (resume, jobDescription) => `
+export const reviewPrompt = (resume: string, jobDescription: string) => `
 You are an expert recruiter. Analyse the resume against the job description.
 
 Respond ONLY with a JSON object in this exact format, no other text:
@@ -15,5 +15,3 @@ Respond ONLY with a JSON object in this exact format, no other text:
 Resume: ${resume}
 Job Description: ${jobDescription}
 `
-
-module.exports = { reviewPrompt }

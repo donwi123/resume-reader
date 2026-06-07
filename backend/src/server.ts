@@ -1,12 +1,13 @@
-require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
+import { Request, Response } from 'express'
+import express from 'express'
+import cors from 'cors'
 
-const { GoogleGenAI } = require('@google/genai')
-const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
+import { GoogleGenAI } from '@google/genai'
+import { reviewPrompt } from './prompts'
 
-const { reviewPrompt } = require('./prompts')
-
-const express = require('express');
-const cors = require('cors');
+const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! })
 const app = express();
 const port = process.env.PORT;
 
@@ -15,11 +16,11 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
-app.get('/health', (req, res) => {
+app.get('/health', (req: Request, res: Response) => {
     res.json ({ status: 'ok' });
 });
 
-app.post('/api/review', async (req, res) => {
+app.post('/api/review', async (req: Request, res: Response) => {
     const resume = req.body.resume
     const jobDescription = req.body.jobDescription
     
@@ -39,6 +40,10 @@ app.post('/api/review', async (req, res) => {
         })
 
         const resultText = result.text
+        if(!resultText){
+            return res.status(500).json({error: 'No response from AI'})
+        }
+
         const clean = resultText.replace(/```json|```/g, '').trim()
         const parsed = JSON.parse(clean)
         return res.json(parsed)
