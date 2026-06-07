@@ -43,7 +43,7 @@ app.post('/api/review', async (req: Request, res: Response) => {
         if(!resultText){
             return res.status(500).json({error: 'No response from AI'})
         }
-
+        //Stops Gemeni trying to wrap JSON in markdown 
         const clean = resultText.replace(/```json|```/g, '').trim()
         const parsed = JSON.parse(clean)
         return res.json(parsed)
